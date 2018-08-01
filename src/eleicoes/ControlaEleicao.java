@@ -6,8 +6,10 @@ public class ControlaEleicao {
 		
 		String retornoMenu;
 		boolean sessaoAberta = true;
+		
 		Menu menu = new Menu();
 		Eleicoes eleicoes = new Eleicoes();
+		Apuracao apuracao = new Apuracao();
 		
 		
 		while(sessaoAberta) {
@@ -20,7 +22,8 @@ public class ControlaEleicao {
 			}else if(retornoMenu.equalsIgnoreCase("3")) {
 				eleicoes.listarCadastros();
 			}else if(retornoMenu.equalsIgnoreCase("4")) {
-				eleicoes.listarCadastros();
+				apuracao.exibeApuracao();
+				/*sessaoAberta = false;*/
 			}else if(retornoMenu.equalsIgnoreCase("x")) {
 				sessaoAberta = false;
 			}

@@ -4,7 +4,7 @@ public class Candidato {
 
 	private String nome;
 	private int numero;
-	private int quantidade = 0;
+	private int quantidade;
 
 	
 	public String getNome() {

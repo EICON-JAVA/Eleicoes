@@ -1,22 +1,39 @@
 package eleicoes;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
 
 public class Eleicoes {
 
-	List<Candidato> listCandidato = new ArrayList<Candidato>();
-	private int votoNulo = 0;
+	private List<Candidato> listCandidato = new ArrayList<Candidato>();
+	private int votoNulo;
 	private int quantidadeVotos;
+
+	public List<Candidato> getListCandidato() {
+		return listCandidato;
+	}
 
 	private Scanner sc = new Scanner(System.in);
 
+	public int getVotoNulo() {
+		return votoNulo;
+	}
+	
+	public void setQuantidadeVotos() {
+		quantidadeVotos ++;
+	}
+	
+	public int getQuantidadeVotos() {
+		return quantidadeVotos;
+	}
+	
 	public void cadastraCandidato() {
 		String nome;
 		int numero;
 
-		/* for(boolean cadastrando = true;cadastrando = true; ) { */
 		Candidato candidato = new Candidato();
 
 		System.out.println("Digite o Nome do candidato:");
@@ -24,22 +41,10 @@ public class Eleicoes {
 		candidato.setNome(nome);
 
 		System.out.println("Digite o Numero do candidato");
-
 		numero = sc.nextInt();
-
 		candidato.setNumero(numero);
 		
-		/* cadastrando = false; */
-		/*System.out.println("Continuar Cadastrando? S|N");
-		continua = sc.next();*/
-
-		/*
-		 * if(continua.equalsIgnoreCase("n")) { cadastrando = false; }else { cadastrando
-		 * = true; }
-		 */
-
 		listCandidato.add(candidato);
-		/* } */
 	}
 
 	public void listarCadastros() {
@@ -47,7 +52,7 @@ public class Eleicoes {
 		if (listCandidato.size() == 0) {
 			System.out.println("\nNão existem cadastros !!!\n");
 		} else {
-			System.out.println("\nLista de Cadastros\n");
+			System.out.println("\nLista de Cadastros sem ordem \n");
 			for (int i = 0; i < listCandidato.size(); i++) {
 				Candidato d = listCandidato.get(i);
 				System.out.println("Cadastro número: " + i);
@@ -56,16 +61,29 @@ public class Eleicoes {
 				System.out.println("\tQuantidade: " + d.getQuantidade());
 
 			}
+			
+			Collections.sort(listCandidato, new ComparatorCandidatos());
+			
+			System.out.println("\nLista de Cadastros em ordem \n");
+			for (int i = 0; i < listCandidato.size(); i++) {
+				Candidato d = listCandidato.get(i);
+				System.out.println("Cadastro número: " + i);
+				System.out.println("\tNome: " + d.getNome());
+				System.out.println("\tNumero: " + d.getNumero());
+				System.out.println("\tQuantidade: " + d.getQuantidade());
+
+			}
+
+			
 			System.out.println("\nFim da lista\n");
 		}
 	}
 
 	public void incluirVoto() {
-		int candidatoEscolhido = 0;
+		
+		int candidatoEscolhido;
 		int ultimaPosicaoLista = listCandidato.size() -1;
 		
-		
-
 		if (listCandidato.size() == 0) {
 			System.out.println("\nNão existem candidatos cadastrados !!!\n");
 		} else {
@@ -79,7 +97,6 @@ public class Eleicoes {
 				Candidato d = listCandidato.get(i);
 				
 				if(candidatoEscolhido == d.getNumero() ) {
-					System.out.println("chegou");
 					d.setQuantidade();
 					break;
 				}else if(candidatoEscolhido == 0 || i == ultimaPosicaoLista) {
@@ -93,15 +110,14 @@ public class Eleicoes {
 			
 	}
 	
-	public int getvotoNulo() {
-		return votoNulo;
+}
+
+class ComparatorCandidatos implements Comparator<Candidato>{
+
+	@Override
+	public int compare(Candidato primeiroCandidato, Candidato segundoCandidato) {
+		return primeiroCandidato.getQuantidade() < segundoCandidato.getQuantidade() ? +1 
+				: (primeiroCandidato.getQuantidade() > segundoCandidato.getQuantidade() ? -1 : 0);
 	}
 	
-	public void setQuantidadeVotos() {
-		quantidadeVotos ++;
-	}
-	
-	public int getQuantidadeVotos() {
-		return quantidadeVotos;
-	}
 }
